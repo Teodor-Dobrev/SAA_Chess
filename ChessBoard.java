@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class ChessBoard {
 
 	static LinkedList<ChessCell> board = new LinkedList<ChessCell>();
+	static int enPassantIndex1 = -1, enPassantIndex2 = -1;
+	static int enPassantOpportunity = 0;
 	static int turn = 0;
 
 	public static void main(String[] args) {
@@ -122,59 +124,53 @@ public class ChessBoard {
 				if (target == "") {
 					if (indexB == indexA + 8 || indexB == indexA + 16) {
 						if (indexB == indexA + 8 && target == "") {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							return moveIt(indexA, indexB, piece);
 						} else if (indexB == indexA + 16 && board.get(indexA + 8).getPiece() == "") {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							enPassantIndex1 = indexB - 1;
+							enPassantIndex2 = indexB + 1;
+							if (board.get(enPassantIndex1).getPiece() != "♙") {
+								enPassantIndex1 = -1;
+							} else {
+								enPassantOpportunity = turn;
+							}
+							if (board.get(enPassantIndex2).getPiece() != "♙") {
+								enPassantIndex2 = -1;
+							} else {
+								enPassantOpportunity = turn;
+							}
+							return moveIt(indexA, indexB, piece);
 						}
 					}
 				} else if (blackOrWhite(indexB) == 2) {
 					if (indexA % 8 == 0) {// left side (A column)
 						if (indexB == indexA + 9) {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							return moveIt(indexA, indexB, piece);
 						}
 					} else if (indexA % 8 == 7) {// right side (B column)
 						if (indexB == indexA + 7) {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							return moveIt(indexA, indexB, piece);
 						}
 					} else {// anywhere from B to G for a pawn
 						if ((indexB == indexA + 7 || indexB == indexA + 9)) {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							return moveIt(indexA, indexB, piece);
 						}
 					}
 				}
 
 			} else if (indexB == indexA + 8 && target == "") { // other than starting position
-				board.get(indexA).setPiece("");
-				board.get(indexB).setPiece(piece);
-				return true;
+				return moveIt(indexA, indexB, piece);
 			} else if (blackOrWhite(indexB) == 2) {
 				if (indexA % 8 == 0) {// left side (A column)
 					if (indexB == indexA + 9) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexA % 8 == 7) {// right side (B column)
 					if (indexB == indexA + 7) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else {// anywhere from B to G for a pawn
 					if ((indexB == indexA + 7 || indexB == indexA + 9)) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				}
 			}
@@ -183,59 +179,53 @@ public class ChessBoard {
 				if (target == "") {
 					if (indexB == indexA - 8 || indexB == indexA - 16) {
 						if (indexB == indexA - 8 && target == "") {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							return moveIt(indexA, indexB, piece);
 						} else if (indexB == indexA - 16 && board.get(indexA - 8).getPiece() == "") {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							enPassantIndex1 = indexB - 1;
+							enPassantIndex2 = indexB + 1;
+							if (board.get(enPassantIndex1).getPiece() != "♙") {
+								enPassantIndex1 = -1;
+							} else {
+								enPassantOpportunity = turn;
+							}
+							if (board.get(enPassantIndex2).getPiece() != "♙") {
+								enPassantIndex2 = -1;
+							} else {
+								enPassantOpportunity = turn;
+							}
+							return moveIt(indexA, indexB, piece);
 						}
 					}
 				} else if (blackOrWhite(indexB) == 1) {
 					if (indexA % 8 == 0) {// left side (A column)
 						if (indexB == indexA - 7) {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							return moveIt(indexA, indexB, piece);
 						}
 					} else if (indexA % 8 == 7) {// right side (B column)
 						if (indexB == indexA - 9) {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							return moveIt(indexA, indexB, piece);
 						}
 					} else {// anywhere from B to G for a pawn
 						if ((indexB == indexA - 7 || indexB == indexA - 9)) {
-							board.get(indexA).setPiece("");
-							board.get(indexB).setPiece(piece);
-							return true;
+							return moveIt(indexA, indexB, piece);
 						}
 					}
 				}
 
 			} else if (indexB == indexA - 8 && target == "") { // other than starting position
-				board.get(indexA).setPiece("");
-				board.get(indexB).setPiece(piece);
-				return true;
+				return moveIt(indexA, indexB, piece);
 			} else if (blackOrWhite(indexB) == 1) {
 				if (indexA % 8 == 0) {// left side (A column)
 					if (indexB == indexA - 7) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexA % 8 == 7) {// right side (B column)
 					if (indexB == indexA - 9) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else {// anywhere from B to G for a pawn
 					if ((indexB == indexA - 7 || indexB == indexA - 9)) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				}
 			}
@@ -261,9 +251,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexA / 8 == indexB / 8) { // on the same line
 					boolean flagObstacle = false;
@@ -285,9 +273,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				}
 			}
@@ -313,9 +299,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexA / 8 == indexB / 8) { // on the same line
 					boolean flagObstacle = false;
@@ -337,9 +321,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				}
 			}
@@ -355,9 +337,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexB > indexA && indexA % 8 - indexB % 8 == indexB / 8 - indexA / 8) {// down left
 					for (int currentIndex = indexA + 7; currentIndex + 7 != indexB
@@ -369,9 +349,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexA > indexB && indexB % 8 - indexA % 8 == indexA / 8 - indexB / 8) {// up right
 					for (int currentIndex = indexA - 7; currentIndex - 7 != indexB
@@ -382,9 +360,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexA > indexB && indexA % 8 - indexB % 8 == indexA / 8 - indexB / 8) {// up left
 					for (int currentIndex = indexA - 9; currentIndex - 9 != indexB
@@ -395,9 +371,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				}
 			}
@@ -413,9 +387,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexB > indexA && indexA % 8 - indexB % 8 == indexB / 8 - indexA / 8) {// down left
 					for (int currentIndex = indexA + 7; currentIndex + 7 != indexB
@@ -427,9 +399,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexA > indexB && indexB % 8 - indexA % 8 == indexA / 8 - indexB / 8) {// up right
 					for (int currentIndex = indexA - 7; currentIndex - 7 != indexB
@@ -440,9 +410,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				} else if (indexA > indexB && indexA % 8 - indexB % 8 == indexA / 8 - indexB / 8) {// up left
 					for (int currentIndex = indexA - 9; currentIndex - 9 != indexB
@@ -453,9 +421,7 @@ public class ChessBoard {
 						}
 					}
 					if (!flagObstacle) {
-						board.get(indexA).setPiece("");
-						board.get(indexB).setPiece(piece);
-						return true;
+						return moveIt(indexA, indexB, piece);
 					}
 				}
 			}
@@ -464,9 +430,7 @@ public class ChessBoard {
 				if (indexB == indexA + 1 || indexB == indexA - 1 || indexB == indexA + 8 || indexB == indexA - 8
 						|| indexB == indexA + 7 || indexB == indexA - 7 || indexB == indexA + 9
 						|| indexB == indexA - 9) {
-					board.get(indexA).setPiece("");
-					board.get(indexB).setPiece(piece);
-					return true;
+					return moveIt(indexA, indexB, piece);
 				}
 			}
 		} else if (piece == "♔") {
@@ -474,9 +438,7 @@ public class ChessBoard {
 				if (indexB == indexA + 1 || indexB == indexA - 1 || indexB == indexA + 8 || indexB == indexA - 8
 						|| indexB == indexA + 7 || indexB == indexA - 7 || indexB == indexA + 9
 						|| indexB == indexA - 9) {
-					board.get(indexA).setPiece("");
-					board.get(indexB).setPiece(piece);
-					return true;
+					return moveIt(indexA, indexB, piece);
 				}
 			}
 		} else if (piece == "♛") { // black queen
@@ -553,12 +515,10 @@ public class ChessBoard {
 					}
 				}
 				if (!flagObstacle) {
-					board.get(indexA).setPiece("");
-					board.get(indexB).setPiece(piece);
-					return true;
+					return moveIt(indexA, indexB, piece);
 				}
 			}
-		} else if (piece == "♕") { //white queen
+		} else if (piece == "♕") { // white queen
 			if (target == "" || blackOrWhite(indexB) == 1) {
 				boolean flagObstacle = false;
 				if (indexA % 8 == indexB % 8) { // on the same column
@@ -632,14 +592,24 @@ public class ChessBoard {
 					}
 				}
 				if (!flagObstacle) {
-					board.get(indexA).setPiece("");
-					board.get(indexB).setPiece(piece);
-					return true;
+					return moveIt(indexA, indexB, piece);
 				}
 			}
 		} else if (piece == "♞") {
 			if (target == "" || blackOrWhite(indexB) == 2) {
-				// TO BE CONTINUED + PAWNS ANDESSANTS SPECIAL MOVE!!!
+				if (indexB == indexA + 10 || indexB == indexA + 6 || indexB == indexA + 17 || indexB == indexA + 15
+						|| indexB == indexA - 10 || indexB == indexA - 6 || indexB == indexA - 17
+						|| indexB == indexA - 15) {
+					return moveIt(indexA, indexB, piece);
+				}
+			}
+		} else if (piece == "♘") {
+			if (target == "" || blackOrWhite(indexB) == 1) {
+				if (indexB == indexA + 10 || indexB == indexA + 6 || indexB == indexA + 17 || indexB == indexA + 15
+						|| indexB == indexA - 10 || indexB == indexA - 6 || indexB == indexA - 17
+						|| indexB == indexA - 15) {
+					return moveIt(indexA, indexB, piece);
+				}
 			}
 		}
 
@@ -737,7 +707,9 @@ public class ChessBoard {
 		for (int i = 0; i < 64; i++) {
 			if (board.get(i).getPiece() == "♚") {
 				blackKing = true;
-			} else if (board.get(i).getPiece() == "♔") {
+			}
+
+			if (board.get(i).getPiece() == "♔") {
 				whiteKing = true;
 			}
 		}
@@ -749,6 +721,12 @@ public class ChessBoard {
 		}
 
 		return 0;
+	}
+
+	private static boolean moveIt(int indexA, int indexB, String piece) {
+		board.get(indexA).setPiece("");
+		board.get(indexB).setPiece(piece);
+		return true;
 	}
 
 }
