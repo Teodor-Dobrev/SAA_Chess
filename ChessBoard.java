@@ -737,9 +737,7 @@ public class ChessBoard {
 		for (int i = 0; i < 64; i++) {
 			if (board.get(i).getPiece() == "♚") {
 				blackKing = true;
-			}
-
-			if (board.get(i).getPiece() == "♔") {
+			} else if (board.get(i).getPiece() == "♔") {
 				whiteKing = true;
 			}
 		}
